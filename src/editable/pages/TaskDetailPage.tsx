@@ -283,7 +283,7 @@ function ImageDetail({ post, related }: { post: SitePost; related: SitePost[] })
             {(images.length ? images : ['/placeholder.svg?height=900&width=1200']).map((image, index) => (
               <figure key={`${image}-${index}`} className="break-inside-avoid overflow-hidden rounded-[1.7rem] border border-white/12 bg-white/8 shadow-sm">
                 <img src={image} alt="" className="w-full object-cover" />
-                {index === 0 ? <figcaption className="p-5 text-sm font-bold text-slate-200">Featured visual from this image post.</figcaption> : null}
+                {index === 0 ? <figcaption className="p-5 text-sm font-bold !text-[#475467]">Featured visual from this image post.</figcaption> : null}
               </figure>
             ))}
           </div>
@@ -367,7 +367,7 @@ function ProfileDetail({ post, related }: { post: SitePost; related: SitePost[] 
 
 function BodyContent({ post, compact = false, tone = 'default' }: { post: SitePost; compact?: boolean; tone?: 'default' | 'light' }) {
   const toneClass = tone === 'light'
-    ? 'text-[#344054] [&_a]:font-black [&_a]:text-[#f26a3d] [&_a]:underline [&_a]:underline-offset-4 [&_h2]:text-[#101828] [&_h3]:text-[#101828] [&_strong]:text-[#101828]'
+    ? '!text-[#344054] [&_*]:!text-inherit [&_a]:!font-black [&_a]:!text-[#f26a3d] [&_a]:underline [&_a]:underline-offset-4 [&_h2]:!text-[#101828] [&_h3]:!text-[#101828] [&_strong]:!text-[#101828]'
     : 'opacity-80 [&_a]:font-black [&_a]:text-[var(--detail-accent)] [&_a]:underline [&_a]:underline-offset-4 [&_strong]:font-black'
   return <div className={`article-content mt-8 max-w-none ${compact ? 'text-base leading-8' : 'text-lg leading-9'} ${toneClass}`} dangerouslySetInnerHTML={{ __html: formatPlainText(getBody(post)) }} />
 }
