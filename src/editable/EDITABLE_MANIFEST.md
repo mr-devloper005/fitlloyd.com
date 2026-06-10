@@ -1,6 +1,6 @@
-# Slot 4 Editable Manifest
+# FitLloyd Editable Manifest
 
-Slot 4 is now a reference-ready editable UI architecture.
+This editable UI layer supports fitlloyd.com as an image-sharing and visual discovery website.
 
 ## Contract
 

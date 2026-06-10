@@ -116,7 +116,7 @@ export default function CommentsPage() {
                   setQuery(event.target.value)
                   setPage(1)
                 }}
-                placeholder="Search comments..."
+                placeholder="Search image post comments..."
                 className="h-11 w-full rounded-2xl border border-[var(--editable-border)] bg-white pl-9 pr-3 text-sm outline-none"
               />
             </div>

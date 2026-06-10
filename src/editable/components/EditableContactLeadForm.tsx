@@ -36,16 +36,16 @@ export function EditableContactLeadForm() {
   return (
     <form onSubmit={handleSubmit} className="rounded-[2rem] border border-[var(--editable-border)] bg-white/90 p-6 shadow-2xl shadow-black/5 backdrop-blur md:p-8">
       <div className="grid gap-4 md:grid-cols-2">
-        <Field name="name" label="Full name" placeholder="Your name" required />
-        <Field name="email" type="email" label="Email address" placeholder="you@example.com" required />
+        <Field name="name" label="Name" placeholder="Your name" required />
+        <Field name="email" type="email" label="Email" placeholder="you@example.com" required />
       </div>
       <div className="mt-4 grid gap-4 md:grid-cols-2">
-        <Field name="phone" label="Phone number" placeholder="Optional" />
-        <Field name="subject" label="Subject" placeholder="How can we help?" />
+        <Field name="phone" label="Phone" placeholder="Optional" />
+        <Field name="subject" label="Topic" placeholder="Gallery request or partnership" />
       </div>
-      <label className="mt-4 grid gap-2 text-sm font-black opacity-75">
+      <label className="mt-4 grid gap-2 text-sm font-black text-[#070d0a]">
         Message
-        <textarea name="message" required rows={6} placeholder="Tell us what you need help with..." className="rounded-2xl border border-[var(--editable-border)] bg-white px-4 py-3 text-base font-medium outline-none transition focus:border-current" />
+        <textarea name="message" required rows={6} placeholder="Tell us what you would like to share, feature, or ask about." className="rounded-2xl border border-[var(--editable-border)] bg-white px-4 py-3 text-base font-medium text-[#070d0a] outline-none transition placeholder:text-[#070d0a]/40 focus:border-current" />
       </label>
       <input name="company" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
       {message ? (
@@ -64,9 +64,9 @@ export function EditableContactLeadForm() {
 
 function Field({ name, label, type = 'text', placeholder, required = false }: { name: string; label: string; type?: string; placeholder?: string; required?: boolean }) {
   return (
-    <label className="grid gap-2 text-sm font-black opacity-75">
+    <label className="grid gap-2 text-sm font-black text-[#070d0a]">
       {label}
-      <input name={name} type={type} required={required} placeholder={placeholder} className="h-12 rounded-2xl border border-[var(--editable-border)] bg-white px-4 text-base font-medium outline-none transition focus:border-current" />
+      <input name={name} type={type} required={required} placeholder={placeholder} className="h-12 rounded-2xl border border-[var(--editable-border)] bg-white px-4 text-base font-medium text-[#070d0a] outline-none transition placeholder:text-[#070d0a]/40 focus:border-current" />
     </label>
   )
 }
