@@ -4,26 +4,26 @@ import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import { SITE_CONFIG } from '@/lib/site-config'
-import { globalContent } from '@/editable/content/global.content'
 import { useEditableLocalAuthSession } from '@/editable/components/EditableLocalAuthForms'
 
 export function EditableFooter() {
-  const footerVars = { '--editable-footer-bg': 'var(--editable-page-bg, #fffaf3)', '--editable-footer-text': 'var(--editable-page-text, #241915)' } as CSSProperties
+  const footerVars = { '--editable-footer-bg': '#210b47', '--editable-footer-text': '#ffffff' } as CSSProperties
   const taskLinks = SITE_CONFIG.tasks.filter((task) => task.enabled)
   const year = new Date().getFullYear()
   const { session, logout } = useEditableLocalAuthSession()
 
   return (
-    <footer style={footerVars} className="border-t border-[var(--editable-border)] bg-[var(--editable-footer-bg)] text-[var(--editable-footer-text)]">
-      <div className="mx-auto grid max-w-[var(--editable-container)] gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.2fr_1fr_1fr] lg:px-8">
+    <footer style={footerVars} className="bg-[var(--editable-footer-bg)] text-[var(--editable-footer-text)]">
+      <div className="uxora-grid-bg px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-[1328px] gap-10 lg:grid-cols-[1.2fr_1fr_1fr]">
         <div>
           <Link href="/" className="inline-flex items-center gap-3">
-            <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl border border-[var(--editable-border)] bg-white">
-              <img src="/favicon.png?v=20260413" alt={SITE_CONFIG.name} className="h-9 w-9 object-contain" />
+            <span className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-white p-2 shadow-[0_14px_34px_rgba(0,0,0,.2)]">
+              <img src="/favicon.png?v=20260413" alt="FitLloyd logo" className="h-full w-full scale-125 object-contain" />
             </span>
-            <span className="text-lg font-black tracking-[-0.04em]">{SITE_CONFIG.name}</span>
+            <span className="text-3xl font-black tracking-normal">FitLloyd</span>
           </Link>
-          <p className="mt-4 max-w-md text-sm leading-7 opacity-70">{globalContent.footer?.description || SITE_CONFIG.description}</p>
+          <p className="mt-6 max-w-xl text-xl font-bold leading-8 opacity-90">Explore image posts, curated visual collections, creative references, and showcase-ready pages built for discovery.</p>
         </div>
 
         <div>
@@ -50,8 +50,9 @@ export function EditableFooter() {
             {session ? <button type="button" onClick={logout} className="text-left text-sm font-bold opacity-75 hover:opacity-100">Logout</button> : null}
           </div>
         </div>
+        </div>
       </div>
-      <div className="border-t border-[var(--editable-border)] px-4 py-5 text-center text-xs font-bold opacity-55">
+      <div className="border-t border-white/10 bg-[#180735] px-4 py-5 text-center text-xs font-bold text-white/60">
         © {year} {SITE_CONFIG.name}. All rights reserved.
       </div>
     </footer>

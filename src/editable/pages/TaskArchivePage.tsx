@@ -9,6 +9,7 @@ import type { SiteFeedPagination, SitePost } from '@/lib/site-connector'
 import { taskPageMetadata } from '@/config/site.content'
 import { taskPageVoices } from '@/editable/content/task-pages.content'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
+import { editableFallbackImage } from '@/editable/cards/PostCards'
 import { getVisualPreset, visualSystem } from '@/editable/theme/visual-system'
 
 export const revalidate = 3
@@ -33,7 +34,7 @@ const getImages = (post: SitePost) => {
   return [...media, ...images, ...(isUrl(image) ? [image] : []), ...(isUrl(logo) ? [logo] : [])].filter(Boolean).slice(0, 8)
 }
 
-const placeholder = '/placeholder.svg?height=900&width=1200'
+const placeholder = editableFallbackImage
 const getImage = (post: SitePost) => getImages(post)[0] || placeholder
 const getCategory = (post: SitePost, fallback: string) => asText(getContent(post).category) || post.tags?.[0] || fallback
 const getSummary = (post: SitePost) => post.summary || asText(getContent(post).description) || asText(getContent(post).excerpt) || asText(getContent(post).body)
@@ -55,13 +56,13 @@ function pageHref(basePath: string, category: string, page: number) {
 }
 
 const taskDeck: Record<TaskKey, { icon: typeof FileText; archiveClass: string; promise: string; badge: string }> = {
-  article: { icon: FileText, archiveClass: 'grid gap-5 md:grid-cols-2 xl:grid-cols-3', promise: 'Readable editorial cards with room for headlines and excerpts.', badge: 'Read' },
-  listing: { icon: Building2, archiveClass: 'grid gap-5 xl:grid-cols-2', promise: 'Directory cards highlight company identity, location, contacts, and service details.', badge: 'Business' },
-  classified: { icon: Megaphone, archiveClass: 'grid gap-5 xl:grid-cols-2', promise: 'Offer-board cards prioritize price, location, condition, and quick action.', badge: 'Offer' },
-  image: { icon: Camera, archiveClass: 'columns-1 gap-5 space-y-5 md:columns-2 xl:columns-3', promise: 'Gallery-first browsing with strong visuals and compact captions.', badge: 'Gallery' },
-  sbm: { icon: Bookmark, archiveClass: 'grid gap-4 md:grid-cols-2 xl:grid-cols-3', promise: 'Bookmark cards stay mostly text-based so saved resources scan quickly.', badge: 'Bookmark' },
-  pdf: { icon: Download, archiveClass: 'grid gap-5 md:grid-cols-2 xl:grid-cols-3', promise: 'Document cards surface file context, download intent, and summary.', badge: 'PDF' },
-  profile: { icon: UserRound, archiveClass: 'grid gap-5 md:grid-cols-2 xl:grid-cols-4', promise: 'Profile cards focus on identity, short bio, and direct discovery.', badge: 'Profile' },
+  article: { icon: FileText, archiveClass: 'grid gap-5 md:grid-cols-2 xl:grid-cols-3', promise: 'Visual essays provide context around image-led ideas, galleries, and creative topics.', badge: 'Read' },
+  listing: { icon: Building2, archiveClass: 'grid gap-5 xl:grid-cols-2', promise: 'Creative directory cards highlight studios, services, locations, and contact details.', badge: 'Studio' },
+  classified: { icon: Megaphone, archiveClass: 'grid gap-5 xl:grid-cols-2', promise: 'Creative notice cards prioritize opportunity details, location, and quick action.', badge: 'Notice' },
+  image: { icon: Camera, archiveClass: 'columns-1 gap-5 space-y-5 md:columns-2 xl:columns-3', promise: 'Gallery-first browsing with strong visuals, compact captions, and collection cues.', badge: 'Gallery' },
+  sbm: { icon: Bookmark, archiveClass: 'grid gap-4 md:grid-cols-2 xl:grid-cols-3', promise: 'Saved resource cards keep useful visual references easy to scan and revisit.', badge: 'Resource' },
+  pdf: { icon: Download, archiveClass: 'grid gap-5 md:grid-cols-2 xl:grid-cols-3', promise: 'Creative document cards surface guide context, download intent, and summary.', badge: 'Guide' },
+  profile: { icon: UserRound, archiveClass: 'grid gap-5 md:grid-cols-2 xl:grid-cols-4', promise: 'Creator profile cards focus on identity, visual style, and direct discovery.', badge: 'Creator' },
 }
 
 export async function EditableTaskArchiveRoute({
@@ -94,31 +95,33 @@ export function TaskArchiveView({ task, posts, pagination, category, basePath }:
 
   return (
     <EditableSiteShell>
-      <main style={archiveVars} className="bg-[var(--archive-bg)] text-[var(--archive-text)]">
-        <section className="mx-auto grid max-w-[var(--editable-container)] gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-20">
-          <div className="rounded-[2.5rem] border border-[var(--editable-border)] bg-[var(--archive-surface)] p-7 shadow-[0_24px_80px_rgba(15,23,42,0.08)] sm:p-10">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--editable-border)] bg-white/70 px-4 py-2 text-xs font-black uppercase tracking-[0.24em] text-[var(--archive-accent)]"><Icon className="h-4 w-4" /> {label}</div>
-            <h1 className="mt-5 max-w-4xl text-5xl font-black leading-[0.95] tracking-[-0.07em] sm:text-6xl">{voice?.headline || `Browse ${label}`}</h1>
-            <p className="mt-6 max-w-2xl text-base leading-8 opacity-70">{voice?.description || SITE_CONFIG.description}</p>
-            <div className="mt-6 rounded-[1.5rem] border border-[var(--editable-border)] bg-white/55 p-4 text-sm font-bold leading-7 opacity-75">{deck.promise}</div>
+      <main style={archiveVars} className="bg-[#f8efe4] text-[#070d0a]">
+        <section className="uxora-grid-bg px-4 py-16 text-white sm:px-6 lg:px-8 lg:py-20">
+          <div className="mx-auto grid max-w-[1328px] gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/12 px-4 py-2 text-xs font-black uppercase tracking-[0.24em] text-[#82ff63] backdrop-blur"><Icon className="h-4 w-4" /> {label}</div>
+            <h1 className="mt-5 max-w-4xl text-5xl font-black leading-[0.95] tracking-normal sm:text-7xl">{voice?.headline || `Browse ${label}`}</h1>
+            <p className="mt-6 max-w-2xl text-base font-semibold leading-8 text-white/74">{voice?.description || SITE_CONFIG.description}</p>
+            <div className="mt-6 rounded-[14px] border border-white/15 bg-white/12 p-4 text-sm font-bold leading-7 text-white/78 backdrop-blur">{deck.promise}</div>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href={basePath} className="rounded-full bg-[var(--archive-text)] px-5 py-3 text-sm font-black text-[var(--archive-bg)]">Browse all</Link>
-              <Link href="/search" className="rounded-full border border-[var(--editable-border)] px-5 py-3 text-sm font-black">Search posts</Link>
+              <Link href={basePath} className="rounded-full bg-[#7600e8] px-5 py-3 text-sm font-black text-white">Browse all</Link>
+              <Link href="/search" className="rounded-full border border-white/15 bg-white/12 px-5 py-3 text-sm font-black backdrop-blur">Search visuals</Link>
             </div>
           </div>
 
-          <form action={basePath} className="self-end rounded-[2rem] border border-[var(--editable-border)] bg-white/70 p-5 shadow-sm backdrop-blur">
-            <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] opacity-55"><Filter className="h-4 w-4" /> Filter</div>
-            <select name="category" defaultValue={category} className="mt-4 h-12 w-full rounded-2xl border border-[var(--editable-border)] bg-white px-4 text-sm font-bold outline-none">
+          <form action={basePath} className="self-end rounded-[18px] border border-white/15 bg-white/12 p-5 shadow-[0_24px_70px_rgba(0,0,0,.22)] backdrop-blur">
+            <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-[#82ff63]"><Filter className="h-4 w-4" /> Filter</div>
+            <select name="category" defaultValue={category} className="mt-4 h-12 w-full rounded-2xl bg-white px-4 text-sm font-bold text-[#070d0a] outline-none">
               <option value="all">All categories</option>
               {CATEGORY_OPTIONS.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}
             </select>
-            <button className="mt-3 h-12 w-full rounded-2xl bg-[var(--archive-text)] text-sm font-black text-[var(--archive-bg)]">Apply</button>
-            <p className="mt-3 text-xs font-bold opacity-55">Showing: {categoryLabel}</p>
+            <button className="mt-3 h-12 w-full rounded-2xl bg-[#7600e8] text-sm font-black text-white">Apply</button>
+            <p className="mt-3 text-xs font-bold text-white/62">Showing: {categoryLabel}</p>
           </form>
+          </div>
         </section>
 
-        <section className="mx-auto max-w-[var(--editable-container)] px-4 pb-16 sm:px-6 lg:px-8">
+        <section className="mx-auto max-w-[1328px] px-4 py-14 sm:px-6 lg:px-8">
           {posts.length ? (
             <div className={deck.archiveClass}>
               {posts.map((post, index) => <ArchivePostCard key={post.id || post.slug} post={post} task={task} basePath={basePath} index={index} />)}
@@ -126,8 +129,8 @@ export function TaskArchiveView({ task, posts, pagination, category, basePath }:
           ) : (
             <div className="rounded-[2rem] border border-dashed border-[var(--editable-border)] bg-white/60 p-10 text-center">
               <Search className="mx-auto h-8 w-8 opacity-45" />
-              <h2 className="mt-4 text-3xl font-black tracking-[-0.05em]">No posts found</h2>
-              <p className="mt-2 text-sm opacity-65">Try another category or refresh this page after publishing new content.</p>
+              <h2 className="mt-4 text-3xl font-black tracking-[-0.05em]">No visual posts found</h2>
+              <p className="mt-2 text-sm opacity-65">Try another category or check back after new FitLloyd image content is published.</p>
             </div>
           )}
 
@@ -206,7 +209,7 @@ function ClassifiedArchiveCard({ post, href }: { post: SitePost; href: string })
     <Link href={href} className="group overflow-hidden rounded-[2rem] border border-[var(--editable-border)] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
       <div className="grid min-h-64 sm:grid-cols-[0.72fr_1fr]">
         <div className="relative bg-[var(--archive-text)] p-5 text-[var(--archive-bg)]">
-          <span className="rounded-full bg-white/15 px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em]">Classified</span>
+          <span className="rounded-full bg-white/15 px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em]">Creative notice</span>
           <h2 className="mt-10 text-3xl font-black leading-[1] tracking-[-0.07em]">{price || 'Open offer'}</h2>
           <p className="mt-4 text-sm font-bold opacity-75">{location || condition || 'Details inside'}</p>
           {image ? <img src={image} alt="" className="absolute bottom-4 right-4 h-20 w-20 rounded-2xl object-cover opacity-80" /> : null}
@@ -224,13 +227,15 @@ function ClassifiedArchiveCard({ post, href }: { post: SitePost; href: string })
 function ImageArchiveCard({ post, href, index }: { post: SitePost; href: string; index: number }) {
   const image = getImage(post)
   return (
-    <Link href={href} className="group mb-5 block break-inside-avoid overflow-hidden rounded-[2rem] border border-[var(--editable-border)] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-      <div className={index % 3 === 0 ? 'aspect-[3/4]' : 'aspect-[4/3]'}>
+    <Link href={href} className="group mb-5 block break-inside-avoid overflow-hidden rounded-[14px] border border-white/70 bg-white p-3 shadow-[0_22px_50px_rgba(18,8,34,.14)] transition hover:-translate-y-1 hover:shadow-xl">
+      <div className={`relative overflow-hidden rounded-[10px] bg-black ${index % 3 === 0 ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}>
         <img src={image} alt="" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+        <div className="absolute bottom-3 left-3 inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-[#070d0a]"><ImageIcon className="h-3 w-3" /> Visual</div>
       </div>
       <div className="p-5">
-        <div className="inline-flex items-center gap-2 rounded-full bg-[var(--archive-bg)] px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em]"><ImageIcon className="h-3 w-3" /> Visual</div>
-        <h2 className="mt-4 line-clamp-3 text-xl font-black leading-tight tracking-[-0.04em]">{post.title}</h2>
+        <h2 className="line-clamp-3 text-xl font-black leading-tight tracking-normal">{post.title}</h2>
+        <p className="mt-3 line-clamp-2 text-sm font-semibold leading-6 text-[#60616a]">{getSummary(post)}</p>
       </div>
     </Link>
   )
@@ -270,13 +275,13 @@ function ProfileArchiveCard({ post, href }: { post: SitePost; href: string }) {
   const avatar = getImages(post)[0]
   const role = getField(post, ['role', 'designation', 'company', 'location'])
   return (
-    <Link href={href} className="group rounded-[2rem] border border-[var(--editable-border)] bg-white p-6 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-      <div className="mx-auto flex h-28 w-28 items-center justify-center overflow-hidden rounded-full bg-[var(--archive-bg)] ring-1 ring-[var(--editable-border)]">
+    <Link href={href} className="group overflow-hidden rounded-[14px] border border-white/70 bg-white p-4 text-center shadow-[0_22px_50px_rgba(18,8,34,.12)] transition hover:-translate-y-1 hover:shadow-xl">
+      <div className="relative mx-auto flex h-32 w-32 items-center justify-center overflow-hidden rounded-full bg-[#210b47] ring-4 ring-[#f8efe4]">
         {avatar ? <img src={avatar} alt="" className="h-full w-full object-cover" /> : <UserRound className="h-10 w-10 opacity-45" />}
       </div>
-      <h2 className="mt-5 text-xl font-black leading-tight tracking-[-0.04em]">{post.title}</h2>
+      <h2 className="mt-5 text-xl font-black leading-tight tracking-normal">{post.title}</h2>
       {role ? <p className="mt-2 text-xs font-black uppercase tracking-[0.16em] text-[var(--archive-accent)]">{role}</p> : null}
-      <p className="mt-4 line-clamp-3 text-sm leading-6 opacity-65">{getSummary(post)}</p>
+      <p className="mt-4 line-clamp-3 text-sm font-semibold leading-6 text-[#60616a]">{getSummary(post)}</p>
     </Link>
   )
 }

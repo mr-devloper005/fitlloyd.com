@@ -4,18 +4,18 @@ export const slot4TaskSupport = {
   article: false,
   classified: false,
   sbm: false,
-  profile: true,
+  profile: false,
   pdf: false,
   listing: false,
   image: true,
 } satisfies Record<TaskKey, boolean>;
 
 export const slot4TaskNotes = {
-  article: "Article pages and article detail backlinks",
-  classified: "Classified ads pages and detail backlinks",
-  sbm: "Social bookmarking pages and detail backlinks",
+  article: "Visual essays, guides, and article detail pages",
+  classified: "Creative notices, opportunities, and detail pages",
+  sbm: "Saved visual resources and curated bookmark pages",
   profile: "Profile/user pages",
-  pdf: "PDF/document pages and detail backlinks",
-  listing: "Business listing pages and detail backlinks",
-  image: "Image/gallery pages and detail backlinks",
+  pdf: "Creative guides, briefs, and document pages",
+  listing: "Creative business and studio listing pages",
+  image: "Image sharing, gallery, and visual collection pages",
 } satisfies Record<TaskKey, string>;

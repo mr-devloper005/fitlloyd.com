@@ -4,6 +4,9 @@ import type { SitePost } from '@/lib/site-connector'
 import type { TaskKey } from '@/lib/site-config'
 import { editableDesignContract as dc, editablePalette as pal } from '@/editable/layouts/design-contract'
 
+export const editableFallbackImage =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1400' height='900' viewBox='0 0 1400 900'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23210b47'/%3E%3Cstop offset='.52' stop-color='%237600e8'/%3E%3Cstop offset='1' stop-color='%23f8efe4'/%3E%3C/linearGradient%3E%3Cpattern id='grid' width='90' height='90' patternUnits='userSpaceOnUse'%3E%3Cpath d='M90 0H0v90' fill='none' stroke='rgba(255,255,255,.18)' stroke-width='2'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='1400' height='900' fill='url(%23bg)'/%3E%3Crect width='1400' height='900' fill='url(%23grid)' opacity='.7'/%3E%3Ccircle cx='1090' cy='210' r='150' fill='%2382ff63' opacity='.32'/%3E%3Ccircle cx='245' cy='690' r='190' fill='%23ffffff' opacity='.18'/%3E%3Crect x='235' y='190' width='930' height='520' rx='34' fill='rgba(255,255,255,.16)' stroke='rgba(255,255,255,.45)' stroke-width='5'/%3E%3Cpath d='M335 590l190-210 165 145 115-125 255 190' fill='none' stroke='%23ffffff' stroke-width='34' stroke-linecap='round' stroke-linejoin='round' opacity='.92'/%3E%3Ccircle cx='875' cy='320' r='56' fill='%23ffffff' opacity='.92'/%3E%3Ctext x='700' y='790' text-anchor='middle' font-family='Arial, Helvetica, sans-serif' font-size='54' font-weight='800' fill='%23ffffff'%3EFitLloyd visual collection%3C/text%3E%3C/svg%3E"
+
 export function getEditablePostImage(post?: SitePost | null) {
   const media = Array.isArray(post?.media) ? post?.media : []
   const mediaUrl = media.find((item) => typeof item?.url === 'string' && item.url)?.url
@@ -11,7 +14,7 @@ export function getEditablePostImage(post?: SitePost | null) {
   const images = Array.isArray(content.images) ? content.images : []
   const contentImage = images.find((url): url is string => typeof url === 'string' && Boolean(url))
   const logo = typeof content.logo === 'string' ? content.logo : ''
-  return mediaUrl || contentImage || logo || '/placeholder.svg?height=900&width=1400'
+  return mediaUrl || contentImage || logo || editableFallbackImage
 }
 
 export function getEditableExcerpt(post?: SitePost | null, limit = 150) {
