@@ -6,6 +6,7 @@ import { buildPostMetadata, buildTaskMetadata } from '@/lib/seo'
 import { buildPostUrl, fetchArticleComments, fetchTaskPostBySlug, fetchTaskPosts } from '@/lib/task-data'
 import { getTaskConfig, SITE_CONFIG, type TaskKey } from '@/lib/site-config'
 import type { SitePost } from '@/lib/site-connector'
+import { editableFallbackImage } from '@/editable/cards/PostCards'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
 import { getVisualPreset, visualSystem } from '@/editable/theme/visual-system'
 
@@ -94,7 +95,7 @@ const getImages = (post: SitePost) => {
 
 const getBody = (post: SitePost) => {
   const content = getContent(post)
-  return asText(content.body) || asText(content.description) || asText(content.details) || post.summary || 'Details will appear here once available.'
+  return asText(content.body) || asText(content.description) || asText(content.details) || post.summary || 'Visual details, gallery notes, and creator context will appear here once available.'
 }
 
 const escapeHtml = (value: string) => value
@@ -211,7 +212,7 @@ function ListingDetail({ post, related }: { post: SitePost; related: SitePost[] 
               {logo ? <img src={logo} alt="" className="h-full w-full object-cover" /> : <Building2 className="h-14 w-14 opacity-40" />}
             </div>
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--detail-accent)]">Business listing</p>
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--detail-accent)]">Creative listing</p>
               <h1 className="mt-3 text-4xl font-black leading-[0.98] tracking-[-0.07em] sm:text-6xl">{post.title}</h1>
               <p className="mt-5 max-w-3xl text-base leading-8 opacity-70">{summaryText(post)}</p>
             </div>
@@ -242,7 +243,7 @@ function ClassifiedDetail({ post, related }: { post: SitePost; related: SitePost
     <section className="mx-auto grid max-w-[var(--editable-container)] gap-7 px-4 py-10 sm:px-6 lg:grid-cols-[0.82fr_1.18fr] lg:px-8 lg:py-16">
       <aside className="rounded-[2.5rem] border border-[var(--editable-border)] bg-[var(--detail-text)] p-7 text-[var(--detail-bg)] shadow-xl lg:sticky lg:top-24 lg:self-start">
         <BackLink task="classified" />
-        <p className="mt-10 text-xs font-black uppercase tracking-[0.28em] opacity-60">Classified notice</p>
+        <p className="mt-10 text-xs font-black uppercase tracking-[0.28em] opacity-60">Creative notice</p>
         <h1 className="mt-4 text-4xl font-black leading-[0.98] tracking-[-0.07em] sm:text-5xl">{post.title}</h1>
         <div className="mt-8 grid gap-3">
           {price ? <BadgeLine label="Price" value={price} /> : null}
@@ -268,28 +269,32 @@ function ImageDetail({ post, related }: { post: SitePost; related: SitePost[] })
   const images = getImages(post)
   const website = getField(post, ['website', 'url', 'targetUrl', 'sourceUrl', 'link'])
   return (
-    <section className="mx-auto max-w-[var(--editable-container)] px-4 py-8 text-[#f8fafc] sm:px-6 lg:px-8 lg:py-14">
-      <BackLink task="image" />
-      <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(360px,0.78fr)_1.22fr]">
-        <aside className="rounded-[2.5rem] border border-white/10 bg-[#f8fafc] p-7 text-[#101828] shadow-[0_26px_90px_rgba(0,0,0,0.28)] lg:sticky lg:top-24 lg:self-start">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#101828] px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-white"><Camera className="h-4 w-4" /> Image story</div>
-          <h1 className="mt-6 text-4xl font-black leading-[0.98] tracking-[-0.07em] text-[#0b1220] sm:text-5xl">{post.title}</h1>
-          {summaryText(post) ? <p className="mt-5 text-base font-semibold leading-8 text-[#475467]">{summaryText(post)}</p> : null}
+    <section className="bg-[#f8efe4] text-[#070d0a]">
+      <div className="uxora-grid-bg px-4 py-14 text-white sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1328px]">
+          <BackLink task="image" />
+          <h1 className="mt-8 max-w-5xl text-5xl font-black leading-[0.96] tracking-normal sm:text-7xl">{post.title}</h1>
+          {summaryText(post) ? <p className="mt-6 max-w-3xl text-base font-semibold leading-8 text-white/76">{summaryText(post)}</p> : null}
+        </div>
+      </div>
+      <div className="mx-auto grid max-w-[1328px] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(320px,0.72fr)_1.28fr] lg:px-8 lg:py-14">
+        <aside className="rounded-[18px] border border-white/70 bg-white p-7 text-[#070d0a] shadow-[0_26px_70px_rgba(18,8,34,.14)] lg:sticky lg:top-24 lg:self-start">
+          <div className="inline-flex items-center gap-2 rounded-full bg-[#210b47] px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-white"><Camera className="h-4 w-4" /> Image story</div>
           <BodyContent post={post} compact tone="light" />
-          {website ? <Link href={website} target="_blank" rel="noreferrer" className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#ff6b35] px-5 py-3 text-sm font-black text-white shadow-[0_12px_30px_rgba(255,107,53,0.28)]">Visit target page <ExternalLink className="h-4 w-4" /></Link> : null}
+          {website ? <Link href={website} target="_blank" rel="noreferrer" className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#7600e8] px-5 py-3 text-sm font-black text-white shadow-[0_12px_30px_rgba(118,0,232,0.28)]">Visit visual source <ExternalLink className="h-4 w-4" /></Link> : null}
         </aside>
-        <div className="rounded-[2.5rem] border border-white/10 bg-[#101828] p-3 shadow-[0_26px_90px_rgba(0,0,0,0.22)] sm:p-4">
+        <div className="rounded-[18px] border border-white/70 bg-[#210b47] p-3 shadow-[0_26px_70px_rgba(18,8,34,.2)] sm:p-4">
           <div className="columns-1 gap-4 space-y-4 md:columns-2">
-            {(images.length ? images : ['/placeholder.svg?height=900&width=1200']).map((image, index) => (
-              <figure key={`${image}-${index}`} className="break-inside-avoid overflow-hidden rounded-[1.7rem] border border-white/12 bg-white/8 shadow-sm">
+            {(images.length ? images : [editableFallbackImage]).map((image, index) => (
+              <figure key={`${image}-${index}`} className="break-inside-avoid overflow-hidden rounded-[14px] border border-white/12 bg-white/8 shadow-sm">
                 <img src={image} alt="" className="w-full object-cover" />
-                {index === 0 ? <figcaption className="p-5 text-sm font-bold !text-[#475467]">Featured visual from this image post.</figcaption> : null}
+                {index === 0 ? <figcaption className="p-5 text-sm font-bold text-white/76">Featured visual from this FitLloyd image post.</figcaption> : null}
               </figure>
             ))}
           </div>
         </div>
       </div>
-      <div className="mt-10 text-[#101828]"><RelatedPanel task="image" post={post} related={related} /></div>
+      <div className="mx-auto max-w-[1328px] px-4 pb-14 sm:px-6 lg:px-8"><RelatedPanel task="image" post={post} related={related} /></div>
     </section>
   )
 }
@@ -319,7 +324,7 @@ function PdfDetail({ post, related }: { post: SitePost; related: SitePost[] }) {
         <div className="mt-8 grid gap-6 sm:grid-cols-[120px_1fr]">
           <div className="flex h-28 w-28 items-center justify-center rounded-[1.8rem] bg-[var(--detail-text)] text-[var(--detail-bg)]"><FileText className="h-12 w-12" /></div>
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--detail-accent)]">PDF resource</p>
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--detail-accent)]">Creative guide</p>
             <h1 className="mt-3 text-4xl font-black leading-[0.98] tracking-[-0.07em] sm:text-6xl">{post.title}</h1>
           </div>
         </div>
@@ -345,21 +350,29 @@ function ProfileDetail({ post, related }: { post: SitePost; related: SitePost[] 
   const website = getField(post, ['website', 'url'])
   const email = getField(post, ['email'])
   return (
-    <section className="mx-auto grid max-w-[var(--editable-container)] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[420px_minmax(0,1fr)] lg:px-8 lg:py-16">
-      <aside className="rounded-[2.7rem] border border-[var(--editable-border)] bg-white p-8 text-center shadow-[0_30px_90px_rgba(15,23,42,0.08)] lg:sticky lg:top-24 lg:self-start">
-        <BackLink task="profile" />
+    <section className="bg-[#f8efe4] text-[#070d0a]">
+      <div className="uxora-grid-bg px-4 py-14 text-white sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1328px]">
+          <BackLink task="profile" />
+          <h1 className="mt-8 max-w-5xl text-5xl font-black leading-[0.96] tracking-normal sm:text-7xl">{post.title}</h1>
+          {role ? <p className="mt-4 text-xs font-black uppercase tracking-[0.2em] text-[#82ff63]">{role}</p> : null}
+        </div>
+      </div>
+      <div className="mx-auto grid max-w-[1328px] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[420px_minmax(0,1fr)] lg:px-8 lg:py-14">
+      <aside className="rounded-[18px] border border-white/70 bg-white p-8 text-center shadow-[0_26px_70px_rgba(18,8,34,.14)] lg:sticky lg:top-24 lg:self-start">
         <div className="mx-auto mt-10 flex h-40 w-40 items-center justify-center overflow-hidden rounded-full bg-[var(--detail-bg)] ring-1 ring-[var(--editable-border)]">
           {images[0] ? <img src={images[0]} alt="" className="h-full w-full object-cover" /> : <UserRound className="h-16 w-16 opacity-45" />}
         </div>
-        <h1 className="mt-6 text-4xl font-black leading-[0.98] tracking-[-0.07em]">{post.title}</h1>
+        <h2 className="mt-6 text-4xl font-black leading-[0.98] tracking-normal">{post.title}</h2>
         {role ? <p className="mt-3 text-xs font-black uppercase tracking-[0.18em] text-[var(--detail-accent)]">{role}</p> : null}
         <ContactAction website={website} email={email} />
       </aside>
-      <article className="rounded-[2.7rem] border border-[var(--editable-border)] bg-white p-7 shadow-sm sm:p-10">
+      <article className="rounded-[18px] border border-white/70 bg-white p-7 shadow-[0_26px_70px_rgba(18,8,34,.12)] sm:p-10">
         <BodyContent post={post} />
         <ImageStrip images={images.slice(1)} label="Profile gallery" />
         <RelatedPanel task="profile" post={post} related={related} />
       </article>
+      </div>
     </section>
   )
 }
@@ -435,7 +448,7 @@ function RelatedPanel({ task, post, related, compact = false }: { task: TaskKey;
           <div className="mt-4 grid gap-3 text-sm font-bold opacity-75">
             <p className="inline-flex items-center gap-2"><Tag className="h-4 w-4" /> Task: {taskConfig?.label || task}</p>
             <p className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> Site: {SITE_CONFIG.name}</p>
-            {post.publishedAt ? <p>Published: {new Date(post.publishedAt).toLocaleDateString()}</p> : null}
+           
           </div>
         </div>
       ) : null}
